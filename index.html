@@ -1,0 +1,17 @@
+<script>
+const API_BASE = localStorage.getItem('api_base') || 'https://<BURAYA-SERVIS-ADRESI-GELECEK>.onrender.com';
+document.getElementById('send')?.addEventListener('click', async () => {
+  const ta = document.getElementById('prompt');
+  if (!ta) return;
+  const user = ta.value.trim();
+  if (!user) return;
+  const res = await fetch(`${API_BASE}/api/chat`, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ messages: [{role:'user', content:user}] })
+  });
+  const data = await res.json();
+  const out = document.getElementById('out');
+  if (out) out.textContent = data.text || JSON.stringify(data,null,2);
+});
+</script>
